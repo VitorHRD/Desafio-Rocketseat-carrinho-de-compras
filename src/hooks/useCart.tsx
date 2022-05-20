@@ -1,3 +1,4 @@
+import { createReadStream } from 'fs';
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
@@ -59,15 +60,18 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       setCart(updateCard)
       localStorage.setItem("@RocketShoes:cart",JSON.stringify(updateCard))
     } catch {
-      toast.error('Erro na alteração de quantidade do produto');
+      toast.error('Erro na adição do produto');
     }
   };
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const newCart = [...cart];
+     const updateCart = newCart.filter((product)=>{return product.id !== productId})
+      setCart(updateCart)
+      localStorage.setItem("@RocketShoes:cart",JSON.stringify(updateCart))
     } catch {
-      // TODO
+      toast.error('Erro na remoção do produto');
     }
   };
 
